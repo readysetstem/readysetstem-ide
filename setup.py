@@ -26,9 +26,9 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 TGT_CONFIG_FILE = '/etc/rstem_ide.conf'
-TGT_INSTALL_DIR = '/opt/raspberrystem/ide'
-TGT_PYTHON_DOCS_DIR = '/opt/raspberrystem/python.org'
-TGT_HTML_SYMLINK = '/opt/raspberrystem/pydoc'
+TGT_INSTALL_DIR = '/opt/readysetstem/ide'
+TGT_PYTHON_DOCS_DIR = '/opt/readysetstem/python.org'
+TGT_HTML_SYMLINK = '/opt/readysetstem/pydoc'
 TGT_CONFIG_FILE = '/etc/rstem_ide.conf'
 TGT_BIN_SYMLINK = '/usr/local/bin/rstem_ided'
 TGT_INITD = '/etc/init.d/rstem_ided'
@@ -115,11 +115,11 @@ setup(
     name = read('NAME').strip(),
     version = read('VERSION').strip(),
     author = 'Brian Silverman',
-    author_email = 'bri@raspberrystem.com',
-    description = ('RaspberrySTEM IDE'),
+    author_email = 'bri@readysetstem.com',
+    description = ('Ready Set STEM IDE'),
     license = 'Apache License 2.0',
-    keywords = ['raspberrystem', 'raspberrypi', 'stem', 'ide'],
-    url = 'http://www.raspberrystem.com',
+    keywords = ['readysetstem', 'raspberrypi', 'stem', 'ide'],
+    url = 'http://www.readysetstem.com',
     long_description = read('README.md'),
     # use https://pypi.python.org/pypi?%3Aaction=list_classifiers as help when editing this
     classifiers=[

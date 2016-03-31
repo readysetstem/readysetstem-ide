@@ -45,7 +45,7 @@ update-rc.d rstem_ided defaults
 
 # Autostart IDE client web browser
 echo "  Enabling autostart of IDE client..."
-IDE_LINE="@sh /opt/raspberrystem/ide/start_client.sh"
+IDE_LINE="@sh /opt/readysetstem/ide/start_client.sh"
 AUTOSTART_CFG="/etc/xdg/lxsession/LXDE-pi/autostart"
 if ! grep -q "$IDE_LINE" "$AUTOSTART_CFG"; then
     echo "$IDE_LINE" >> "$AUTOSTART_CFG"

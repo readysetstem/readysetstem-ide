@@ -13,12 +13,12 @@
 #
 # Installation layout:
 #	- Installed via pip
-#		/opt/raspberrystem/ide - IDE server and resources
+#		/opt/readysetstem/ide - IDE server and resources
 #		/etc/rstem_ide.conf - IDE config
-#		/var/local/raspberrystem/ide/website - top-level html
+#		/var/local/readysetstem/ide/website - top-level html
 #		/usr/local/bin/rstem_ided - Link to IDE server
 #	- Dependency of lesson plans pip install
-#	- Depends on raspberrystem pip install
+#	- Depends on readysetstem pip install
 #
 PYTHON=python3
 SETUP=$(PYTHON) setup.py
@@ -75,8 +75,8 @@ $(PACKAGES):
 .PHONY: run targets clean install
 
 pushpg:
-	ssh swolski@raspberrystem.com mkdir -p raspberrystem.com/assets
-	scp -r assets/* swolski@raspberrystem.com:raspberrystem.com/assets
+	ssh readysetstem@readysetstem.com mkdir -p readysetstem.com/assets
+	scp -r assets/* readysetstem@readysetstem.com:readysetstem.com/assets
 
 run:
 	$(RUNONPI) "(sudo killall rstem_ided; exit 0)"

@@ -1114,7 +1114,7 @@ function softwareDialog() {
 			var text = document.createElement("div");
 			popup.appendChild(text);
 			text.classList.add("deletetext");
-			text.innerHTML = "Software updates require an Internet connection. For more information, visit www.raspberrystem.com";
+			text.innerHTML = "Software updates require an Internet connection. For more information, visit www.readysetstem.com";
 			text.style.left = "0";
 			text.style.fontSize = "14px";
 

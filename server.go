@@ -23,7 +23,7 @@ import (
 )
 
 var SETTINGS_FILE = "/etc/rstem_ide.conf"
-var COMPANY_DIR = "/opt/raspberrystem/"
+var COMPANY_DIR = "/opt/readysetstem/"
 var IDE_DIR = COMPANY_DIR + "ide/"
 var PROJECTS_DIR = COMPANY_DIR + "projects/"
 var PYDOC_DIR = COMPANY_DIR + "pydoc/"
@@ -300,9 +300,9 @@ func softwareVersions(w http.ResponseWriter, r *http.Request) {
 	//Check that pypi.python.org is accessible
 	throwaway, err := http.Get("http://pypi.python.org/")
 	if err == nil {
-		rstem, _ := http.Get("https://pypi.python.org/pypi/raspberrystem/")
-		rstemIde, _ := http.Get("http://pypi.python.org/pypi/raspberrystem_ide/")
-		rstemProjects, _ := http.Get("http://pypi.python.org/pypi/raspberrystem_projects/")
+		rstem, _ := http.Get("https://pypi.python.org/pypi/readysetstem/")
+		rstemIde, _ := http.Get("http://pypi.python.org/pypi/readysetstem_ide/")
+		rstemProjects, _ := http.Get("http://pypi.python.org/pypi/readysetstem_projects/")
 		defer throwaway.Body.Close()
 		defer rstem.Body.Close()
 		defer rstemIde.Body.Close()
@@ -319,22 +319,22 @@ func softwareVersions(w http.ResponseWriter, r *http.Request) {
 		rstemProjectsv := tmp[len(tmp) - 2]
 
 		out, _ := exec.Command("pip-3.2", "freeze").CombinedOutput()
-		r = regexp.MustCompile("raspberrystem.*==\\d+\\.\\d+\\.\\d+")
+		r = regexp.MustCompile("readysetstem.*==\\d+\\.\\d+\\.\\d+")
 		rpackages := r.FindAllString(string(out), -1)
 		var rstemiv, rstemIdeiv, rstemProjectsiv = "uninstalled", "uninstalled", "uninstalled"
 		for _, v := range(rpackages) {
 			sp := strings.Split(v, "==")
-			if sp[0] == "raspberrystem" {
+			if sp[0] == "readysetstem" {
 				rstemiv = sp[1]
-			} else if sp[0] == "raspberrystem-ide" {
+			} else if sp[0] == "readysetstem-ide" {
 				rstemIdeiv = sp[1]
-			} else if sp[0] == "raspberrystem-projects" {
+			} else if sp[0] == "readysetstem-projects" {
 				rstemProjectsiv = sp[1]
 			}
 		}
-		io.WriteString(w, "{\n\t\"raspberrystem\": [\"" + rstemiv + "\", \"" + rstemv + "\"],\n")
-		io.WriteString(w, "\t\"raspberrystem-ide\": [\"" + rstemIdeiv + "\", \"" + rstemIdev + "\"],\n")
-		io.WriteString(w, "\t\"raspberrystem-projects\": [\"" + rstemProjectsiv + "\", \"" + rstemProjectsv + "\"]\n}")
+		io.WriteString(w, "{\n\t\"readysetstem\": [\"" + rstemiv + "\", \"" + rstemv + "\"],\n")
+		io.WriteString(w, "\t\"readysetstem-ide\": [\"" + rstemIdeiv + "\", \"" + rstemIdev + "\"],\n")
+		io.WriteString(w, "\t\"readysetstem-projects\": [\"" + rstemProjectsiv + "\", \"" + rstemProjectsv + "\"]\n}")
 	} else {
 		io.WriteString(w, "ConnErr")
 	}
@@ -361,7 +361,7 @@ func setOverrideLastFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func upgradeServer(s *websocket.Conn) {
-	com := exec.Command("pip-3.2", "install", "--upgrade", "raspberrystem", "raspberrystem-projects", "raspberrystem-ide")
+	com := exec.Command("pip-3.2", "install", "--upgrade", "readysetstem", "readysetstem-projects", "readysetstem-ide")
 	pt, _ := pty.Start(com)
 	for {
 		out := make([]byte, 1024)

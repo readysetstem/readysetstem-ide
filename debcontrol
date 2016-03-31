@@ -1,10 +1,10 @@
-Source: raspberrystem-ide
-Package: raspberrystem-ide
+Source: readysetstem-ide
+Package: readysetstem-ide
 Version: 1.0.0
 Section: programming
 Priority: extra
-Maintainer: Scott Silver Labs <todo@raspberrystem.com>
-Homepage: http://raspberrystem.com
+Maintainer: Scott Silver Labs <info@readysetstem.com>
+Homepage: http://readysetstem.com
 Architecture: armhf
 Depends:
 Description: A web based Python editor for the Raspberry Pi

@@ -1,4 +1,4 @@
-raspberrystem-ide
+readysetstem-ide
 =================
 
-raspberrySTEM(TM) IDE (Integrated Development Environment)
+Ready Set STEM IDE (Integrated Development Environment)

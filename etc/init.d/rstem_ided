@@ -5,11 +5,11 @@
 # Required-Stop:     
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start RaspberrySTEM IDE Server
+# Short-Description: Start Ready Set STEM IDE Server
 ### END INIT INFO
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="RaspberrySTEM IDE Server"
+DESC="Ready Set STEM IDE Server"
 NAME=rstem_ided
 DAEMON=/usr/local/bin/$NAME
 DAEMON_ARGS=""
