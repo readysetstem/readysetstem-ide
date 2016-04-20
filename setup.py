@@ -94,6 +94,8 @@ def _post_install(dir):
         shutil.copy(TGT_OPENBOX_FILE, TGT_OPENBOX_FILE + '.old')
     except:
         pass
+    tgt_openbox_dir, tgt_openbox_filename = os.path.split(TGT_OPENBOX_FILE)
+    os.makedirs(tgt_openbox_dir, exist_ok=True)
     print('Copy {} -> {}'.format("./configfiles/lxde-pi-rc.xml", TGT_OPENBOX_FILE))
     shutil.copy("./configfiles/lxde-pi-rc.xml", TGT_OPENBOX_FILE)
 
