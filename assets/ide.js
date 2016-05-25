@@ -136,7 +136,7 @@ window.onload = function() {
 		save(); //Create untitled document if there are no documents
 	asyncGET("api/listthemes", function(r) { themes = r.split("\n"); });
 	loadFile(filename, true);
-	welcome();
+	//welcome();
 	setTheme(currentTheme);
 };
 
