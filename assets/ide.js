@@ -18,7 +18,7 @@ String.prototype.startsWith = function(searchString) {
 window.onload = function() {
 	if (window.MozWebSocket)
 		window.WebSocket = window.MozWebSocket;
-	if (document.location.host == "127.0.0.1")
+	if (isLocalhost())
 		document.getElementById("outputbutton").src = "/assets/images/arrow-down.png";
 
 	codewrapper = document.getElementById("codewrapper");
@@ -165,6 +165,11 @@ window.onkeydown = function(k) {
 		return false;
 	}
 };
+
+function isLocalhost() {
+	return (document.location.host == "127.0.0.1" 
+		|| document.location.host == "localhost")
+}
 
 //Focus on the editor when the header is clicked
 function headerClick() {
@@ -563,7 +568,7 @@ function socket() {
 		if (!outputOpen) {
 			outputPos = 0;
 			toggleOutput();
-			if (document.location.host == "127.0.0.1") {
+			if (isLocalhost()) {
 				stdin.focus();
 			} else {
 				setTimeout(function() {
@@ -745,6 +750,41 @@ function foreverAlert(titleText, bodyText) {
 	popup.appendChild(text);
 	text.classList.add("deletetext");
 	text.innerHTML = bodyText;
+}
+
+//Creates a ok prompt
+function okPrompt(titleText, bodyText) {
+	removePopup();
+
+	back = document.createElement("div");
+	document.body.appendChild(back);
+	back.classList.add("holder");
+	back.focus();
+
+	popup = document.createElement("div");
+	document.body.appendChild(popup);
+	popup.classList.add("okpopup");
+	popup.classList.add("popup");
+	back.onclick = removePopup;
+
+	var title = document.createElement("h1");
+	popup.appendChild(title);
+	title.classList.add("popuptitle");
+	title.classList.add("maincolor");
+	title.innerHTML = titleText;
+
+	text = document.createElement("div");
+	popup.appendChild(text);
+	text.classList.add("deletetext");
+	text.innerHTML = bodyText;
+
+	var cancel = document.createElement("div");
+	popup.appendChild(cancel);
+	cancel.innerHTML = "OK";
+	cancel.classList.add("okbutton");
+	cancel.classList.add("button");
+	cancel.onclick = removePopup;
+	setupButton(cancel, 0, 0);
 }
 
 //Creates a basic yes/no prompt which calls yes or no based on response.
@@ -1213,13 +1253,22 @@ function shutdownDialog() {
 		foreverAlert("Shutdown", "Shutting down, please wait...");
 		console.log("Poweroff");
 		asyncGET("/api/poweroff");
-		if (document.location.host != "127.0.0.1") {
+		if (!isLocalhost()) {
 			setTimeout(function() { removePopup(); }, 10000);
 		}
 	},
 	function() {
 		removePopup();
 	});
+}
+
+function showDesktop() {
+	GET("/api/showdesktop");
+	if (!isLocalhost()) {
+		okPrompt("Show Desktop", 
+			"Note: Show Desktop shows the desktop on the " 
+			+ "HDMI connected monitor only.");
+	}
 }
 
 //Settings dialog
@@ -1286,7 +1335,7 @@ function settingsDialog() {
 			}},
 			*/
 			"Software Updates...": { type: "button", func: softwareDialog },
-			"Clean Shutdown": { type: "button", func: shutdownDialog }
+			"Show Desktop": { type: "button", func: showDesktop }
 		};
 
 		var buttonnum = 0;

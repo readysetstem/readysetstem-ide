@@ -118,6 +118,7 @@ func main() {
 	http.HandleFunc("/api/deletefile", deleteFile)
 	http.HandleFunc("/api/hostname", hostnameOut)
 	http.HandleFunc("/api/poweroff", poweroff)
+	http.HandleFunc("/api/showdesktop", showDesktop)
 	http.HandleFunc("/api/setbootfiles", setBootFiles)
 	http.HandleFunc("/api/setoverridelastfile", setOverrideLastFile)
 	http.HandleFunc("/api/configuration", configuration)
@@ -292,6 +293,19 @@ func poweroff(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain")
 	io.WriteString(w, "")
 	exec.Command("poweroff").Run();
+}
+
+func showDesktop(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/plain")
+	io.WriteString(w, "")
+
+	cmd := exec.Command("wmctrl", "-k", "on")
+	env := os.Environ()
+	// User "pi" is configured correctly for X by default (but root isn't)
+	env = append(env, "XAUTHORITY=/home/pi/.Xauthority")
+	env = append(env, "DISPLAY=:0")
+	cmd.Env = env
+	cmd.Run()
 }
 
 //Returns the current installed and downloadable software versions, or ConnErr
