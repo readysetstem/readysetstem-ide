@@ -3,6 +3,8 @@
 PKG_DIR=$1
 PKG_NAME=$2
 
+INSTALL_DIR="/opt/readysetstem/ide"
+
 #
 # Enable boot to desktop...  Taken from http://github.com/asb/raspi-config
 #
@@ -45,7 +47,10 @@ update-rc.d rstem_ided defaults
 
 # Autostart IDE client web browser
 echo "  Enabling autostart of IDE client..."
-IDE_LINE="@sh /opt/readysetstem/ide/start_client.sh"
+LAUNCH_LINK="$INSTALL_DIR/launch"
+LAUNCH_FILE="start_client.sh"
+ln -sf "$LAUNCH_FILE" "$LAUNCH_LINK"
+IDE_LINE="@$LAUNCH_LINK"
 AUTOSTART_CFG="/etc/xdg/lxsession/LXDE-pi/autostart"
 if ! grep -q "$IDE_LINE" "$AUTOSTART_CFG"; then
     echo "$IDE_LINE" >> "$AUTOSTART_CFG"
@@ -53,5 +58,9 @@ if ! grep -q "$IDE_LINE" "$AUTOSTART_CFG"; then
 else
     echo "    ... was already enabled."
 fi
+chmod a+x  "$INSTALL_DIR/$LAUNCH_FILE"
 
+
+# Create desktop icon
+cp "$INSTALL_DIR/rss.desktop" /home/pi/Desktop
 

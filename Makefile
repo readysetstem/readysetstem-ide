@@ -29,6 +29,10 @@ RUNONPI=ssh $(SSHFLAGS) -q -t $(PI) "cd rsinstall;"
 
 PACKAGES=github.com/kr/pty code.google.com/p/go.net/websocket
 
+# BUILDDIR must be "ide", as it gets packaged into the install tarball with
+# that name.
+BUILDDIR=ide
+
 export GOPATH=$(HOME)/tmp/idebuild
 
 # Create version name
@@ -38,7 +42,8 @@ DUMMY:=$(shell scripts/version.sh)
 NAME:=$(shell cat NAME)
 VER:=$(shell cat VERSION)
 
-IDE_SOURCE_FILES=$(shell git ls-files assets ide.html start_client.sh)
+IDE_FILES_PATHS=assets ide.html start_client.sh rss.desktop icon.png
+IDE_FILES_TO_PKG=$(shell git ls-files $(IDE_FILES_PATHS))
 # Final targets
 IDE_TAR:=$(abspath $(NAME)-$(VER).tar.gz)
 TARGETS=$(IDE_TAR)
@@ -88,17 +93,17 @@ run: stop
 server: server.go | is_go_installed $(PACKAGES)
 	GOARCH=arm GOARM=5 GOOS=linux go build $<
 
-ide/server: server $(IDE_SOURCE_FILES)
+$(BUILDDIR)/server: server $(IDE_FILES_TO_PKG)
 	$(eval DIR=$(dir $@))
 	rm -rf $(DIR)
 	mkdir -p $(DIR)
-	@for f in $(IDE_SOURCE_FILES); do \
-		mkdir -p ide/`dirname $$f`; \
+	@for f in $(IDE_FILES_TO_PKG); do \
+		mkdir -p $(DIR)/`dirname $$f`; \
 		cp -v $$f $(DIR)/$$f; \
 	done
 	cp $< $@
 
-$(IDE_TAR): ide/server $(GIT_FILES)
+$(IDE_TAR): $(BUILDDIR)/server $(GIT_FILES)
 	git clean -dxf $(GIT_GRAFTABLES)
 	$(SETUP) sdist
 	mv dist/$(notdir $@) $@
@@ -121,7 +126,7 @@ install:
 	$(RUNONPI) sudo $(PIP) install /tmp/$(notdir $(IDE_TAR))
 
 clean:
-	rm -rf ide
+	rm -rf $(BUILDDIR)
 	rm NAME VERSION
 	rm -f server
 	rm -f *.tar.gz

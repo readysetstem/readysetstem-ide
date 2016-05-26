@@ -47,12 +47,12 @@ def _post_install(dir):
     import rstem
     pydoc_path = os.path.join(os.path.dirname(rstem.__file__), 'pydoc', rstem.__name__)
 
-    for dir in [TGT_INSTALL_DIR, TGT_PYTHON_DOCS_DIR]:
-        print('Removing: ' + dir)
-        shutil.rmtree(dir, ignore_errors=True)
-    for dir in [TGT_INSTALL_DIR, TGT_PYTHON_DOCS_DIR]:
-        print('Installing: ' + dir)
-        shutil.copytree(os.path.basename(dir), dir)
+    for d in [TGT_INSTALL_DIR, TGT_PYTHON_DOCS_DIR]:
+        print('Removing: ' + d)
+        shutil.rmtree(d, ignore_errors=True)
+    for d in [TGT_INSTALL_DIR, TGT_PYTHON_DOCS_DIR]:
+        print('Installing: ' + d)
+        shutil.copytree(os.path.basename(d), d)
 
     print('Creating links...')
 
