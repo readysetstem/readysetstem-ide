@@ -72,15 +72,18 @@ $(PACKAGES):
 # Targets
 #
 
-.PHONY: run targets clean install
+.PHONY: run stop targets clean install
 
 pushpg:
 	ssh readysetstem@readysetstem.com mkdir -p readysetstem.com/assets
 	scp -r assets/* readysetstem@readysetstem.com:readysetstem.com/assets
 
-run:
+stop:
 	$(RUNONPI) "(sudo killall rstem_ided; exit 0)"
+
+run: stop
 	$(RUNONPI) "sudo rstem_ided" &
+
 
 server: server.go | is_go_installed $(PACKAGES)
 	GOARCH=arm GOARM=5 GOOS=linux go build $<
