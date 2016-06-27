@@ -27,7 +27,7 @@ PIP=pip-3.2
 PI=pi@raspberrypi
 RUNONPI=ssh $(SSHFLAGS) -q -t $(PI) "cd rsinstall;"
 
-PACKAGES=github.com/kr/pty code.google.com/p/go.net/websocket
+PACKAGES=github.com/kr/pty golang.org/x/net/websocket
 
 # BUILDDIR must be "ide", as it gets packaged into the install tarball with
 # that name.
