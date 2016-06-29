@@ -314,7 +314,7 @@ func softwareVersions(w http.ResponseWriter, r *http.Request) {
 	//Check that pypi.python.org is accessible
 	throwaway, err := http.Get("http://pypi.python.org/")
 	if err == nil {
-		rstem, _ := http.Get("https://pypi.python.org/pypi/readysetstem/")
+		rstem, _ := http.Get("https://pypi.python.org/pypi/readysetstem_api/")
 		rstemIde, _ := http.Get("http://pypi.python.org/pypi/readysetstem_ide/")
 		rstemProjects, _ := http.Get("http://pypi.python.org/pypi/readysetstem_projects/")
 		defer throwaway.Body.Close()
@@ -338,7 +338,7 @@ func softwareVersions(w http.ResponseWriter, r *http.Request) {
 		var rstemiv, rstemIdeiv, rstemProjectsiv = "uninstalled", "uninstalled", "uninstalled"
 		for _, v := range(rpackages) {
 			sp := strings.Split(v, "==")
-			if sp[0] == "readysetstem" {
+			if sp[0] == "readysetstem-api" {
 				rstemiv = sp[1]
 			} else if sp[0] == "readysetstem-ide" {
 				rstemIdeiv = sp[1]
@@ -346,7 +346,7 @@ func softwareVersions(w http.ResponseWriter, r *http.Request) {
 				rstemProjectsiv = sp[1]
 			}
 		}
-		io.WriteString(w, "{\n\t\"readysetstem\": [\"" + rstemiv + "\", \"" + rstemv + "\"],\n")
+		io.WriteString(w, "{\n\t\"readysetstem-api\": [\"" + rstemiv + "\", \"" + rstemv + "\"],\n")
 		io.WriteString(w, "\t\"readysetstem-ide\": [\"" + rstemIdeiv + "\", \"" + rstemIdev + "\"],\n")
 		io.WriteString(w, "\t\"readysetstem-projects\": [\"" + rstemProjectsiv + "\", \"" + rstemProjectsv + "\"]\n}")
 	} else {
@@ -375,7 +375,7 @@ func setOverrideLastFile(w http.ResponseWriter, r *http.Request) {
 }
 
 func upgradeServer(s *websocket.Conn) {
-	com := exec.Command("pip-3.2", "install", "--upgrade", "readysetstem", "readysetstem-projects", "readysetstem-ide")
+	com := exec.Command("pip-3.2", "install", "--upgrade", "readysetstem-api", "readysetstem-projects", "readysetstem-ide")
 	pt, _ := pty.Start(com)
 	for {
 		out := make([]byte, 1024)
