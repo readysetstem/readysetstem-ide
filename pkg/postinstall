@@ -36,11 +36,19 @@ enable_boot_to_desktop() {
     disable_raspi_config_at_boot
 }
 
+set_keyboard() {
+    KBFILE="/etc/default/keyboard"
+    KBSTRING='XKBLAYOUT="'"$1"'"'
+    if ! tail -1 "$KBFILE" | grep -q '^'"$KBSTRING"'$'; then
+        sudo sh -c 'echo '\'"$KBSTRING"\'' >> '"$KBFILE"
+    fi
+}
 
 echo "Running postinstall script..."
 echo "  Enabling boot to desktop"
 
 enable_boot_to_desktop
+set_keyboard us
 
 # Add server startup to boot
 update-rc.d rstem_ided defaults
