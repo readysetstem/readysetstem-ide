@@ -59,7 +59,7 @@ LAUNCH_LINK="$INSTALL_DIR/launch"
 LAUNCH_FILE="start_client.sh"
 ln -sf "$LAUNCH_FILE" "$LAUNCH_LINK"
 IDE_LINE="@$LAUNCH_LINK"
-AUTOSTART_CFG="/etc/xdg/lxsession/LXDE-pi/autostart"
+AUTOSTART_CFG="/home/pi/.config/lxsession/LXDE-pi/autostart"
 if ! grep -q "$IDE_LINE" "$AUTOSTART_CFG"; then
     echo "$IDE_LINE" >> "$AUTOSTART_CFG"
     echo "    ... now enabled."
