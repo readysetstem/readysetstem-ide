@@ -23,5 +23,5 @@ if [ $ACTIVATED -ne 0 -a $RUNNING -ne 0 ]; then
     rm -f $HOME/.config/chromium/SingletonLock
 
     # Run!
-    chromium --kiosk localhost &
+    chromium --kiosk --no-first-run localhost &
 fi
