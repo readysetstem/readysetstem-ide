@@ -79,9 +79,12 @@ $(PACKAGES):
 
 .PHONY: run stop targets clean install
 
+PG=assets
+HOST=readysetstem
+USER=readysetstem
 pushpg:
-	ssh readysetstem@readysetstem.com mkdir -p readysetstem.com/assets
-	scp -r assets/* readysetstem@readysetstem.com:readysetstem.com/assets
+	ssh $(USER)@$(HOST).com mkdir -p $(HOST).com/$(PG)
+	scp -r $(PG)/* $(USER)@$(HOST).com:$(HOST).com/$(PG)
 
 stop:
 	$(RUNONPI) "(sudo killall rstem_ided; exit 0)"
